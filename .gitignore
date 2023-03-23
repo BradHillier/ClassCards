@@ -5,3 +5,6 @@
 core
 *.core
 a.out
+
+client/*.*~
+server/*.*~
