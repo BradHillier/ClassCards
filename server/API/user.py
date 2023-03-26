@@ -7,13 +7,13 @@ import bcrypt
 
 
 
-login_page = Blueprint('user_login', __name__)
+user = Blueprint('user', __name__)
 
-@login_page.route("/login")
+@user.route("/login")
 def test_route():
     return "hello from user.py login route!"
 
-@login_page.route("/login", methods=["POST"])
+@user.route("/login", methods=["POST"])
 def login_POST():
     """attempts to log the user in with recieved POSTed username & password
     """
@@ -24,8 +24,8 @@ def login_POST():
     username = content['username']
     password = content['password']
 
-    # TODO: hash pwd, test against username entry
-
+    # HASH PASSWORDS
+    
     bytes = password.encode("utf-8")
     salt = bcrypt.gensalt()
     hash = bcrypt.hashpw(bytes, salt)
@@ -34,19 +34,36 @@ def login_POST():
     test = password.encode("utf-8")
     result = bcrypt.checkpw(test, hash)
 
-
-    if result == True:
-        session["username"] = username    
-    
-    
+    # TODO: Access database and check pwdhash against input
+        
     #test = get_DB()
 
 
+    # For now, just let any username and password create a session
+    if result == True:
+        session["username"] = username    
+        session["logged_in"] = True 
+
     
+    if "username" in session:
+        print("session exists?")
+        print(session["username"])
 
 
+
+    return jsonify(content)
+
+
+@user.route("/logout")
+def logout():
+    """Log the user out by removing all variables from session
+    """
+    session.pop("username", None)
+    session.pop("logged_in", None)
+    return "Logged out"
     
+
         
     
     
-    return jsonify(content)
+    
