@@ -11,3 +11,5 @@ server/*.*~
 server/db.py
 
 **/__pycache__/
+
+server/flask_session/

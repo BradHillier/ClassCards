@@ -1,8 +1,11 @@
 """Handle user related functionality, including routing requests
 """
 
-from flask import Blueprint, Flask, request, jsonify
+from flask import Blueprint, Flask, request, jsonify, session
 import db
+import bcrypt
+
+
 
 login_page = Blueprint('user_login', __name__)
 
@@ -18,14 +21,32 @@ def login_POST():
     content = request.get_json(force=True)
     print(content)
 
-    print(content['test'])
-
     username = content['username']
-    pwd      = content['password']
+    password = content['password']
 
     # TODO: hash pwd, test against username entry
 
-    test = get_DB()
+    bytes = password.encode("utf-8")
+    salt = bcrypt.gensalt()
+    hash = bcrypt.hashpw(bytes, salt)
+
+    # Debugging test: ensure password can be checked against hash
+    test = password.encode("utf-8")
+    result = bcrypt.checkpw(test, hash)
+
+
+    if result == True:
+        session["username"] = username    
+    
+    
+    #test = get_DB()
+
+
+    
+
+
+    
+        
     
     
     return jsonify(content)
