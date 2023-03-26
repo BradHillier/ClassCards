@@ -1,8 +1,11 @@
-
-
 from flask import Flask
 
+from API.user import login_page
+
 app = Flask(__name__)
+
+
+app.register_blueprint(login_page)
 
 @app.route("/")
 def hello():
@@ -16,4 +19,6 @@ def show_input(test_str):
 
 
 # /api/
+
+
 
