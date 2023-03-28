@@ -1,0 +1,36 @@
+<script src="{{ url_for('static', filename='../static/js/login.js') }}"></script>
+
+<!-- login.html -->
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block title %}
+  Flashcard App | Login
+{% endblock %}
+
+{% block content %}
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}">
+        <title>Login</title>
+      </head>
+      <body>
+        <div class="login-container">
+          <h1>Login</h1>
+          <form class="login-form" method="POST" action="{{ url_for('login') }}">
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <input type="submit" value="Login">
+          </form>
+        <p>Or register if you don't have an account yet..</p>
+        </div>
+      </body>
+    </html>
+
+{% endblock %}

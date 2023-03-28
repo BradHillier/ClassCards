@@ -1,0 +1,12 @@
+<!-- view_decks.html -->
+{% extends "base.html" %}
+
+{% block title %}
+  Flashcard App | View Decks
+{% endblock %}
+
+{% block content %}
+  <h1>View Decks</h1>
+  <div id="deck-container"></div>
+  <script src="{{ url_for('static', filename='../static/js/view_decks.js') }}"></script>
+{% endblock %}

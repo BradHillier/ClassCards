@@ -1,0 +1,25 @@
+<!-- base.html -->
+<html>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <div class="wrapper">
+      <nav>
+        <!-- Add some links to the navbar -->
+        <a href="/" {% if request.path == '/' %}class="active"{% endif %}>Home</a>
+        <a href="/upload_deck" {% if request.path == '/upload_deck' %}class="active"{% endif %}>Upload Deck</a>
+        <a href="/view_decks" {% if request.path == '/view_decks' %}class="active"{% endif %}>View Decks</a>
+        <a href="/login" {% if request.path == '/login' %}class="active"{% endif %}>Login</a>
+      </nav>
+      <div class="content">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+    <footer>
+      <!-- Add some content to the footer -->
+      <p>&copy; 2023 Code Commandos</p>
+    </footer>
+  </body>
+</html>
