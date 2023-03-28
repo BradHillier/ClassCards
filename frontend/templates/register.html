@@ -1,11 +1,11 @@
 <script src="{{ url_for('static', filename='../static/js/login.js') }}"></script>
 
-<!-- login.html -->
+<!-- register.html -->
 <!DOCTYPE html>
 {% extends "base.html" %}
 
 {% block title %}
-  Flashcard App | Login
+  Flashcard App | Register
 {% endblock %}
 
 {% block content %}
@@ -18,7 +18,7 @@
       </head>
       <body>
         <div class="login-container">
-          <h1>Login</h1>
+          <h1>Register</h1>
           <form class="login-form" method="POST" action="{{ url_for('login') }}">
             <label for="email">Email</label>
             <input type="text" id="email" name="email" required>
@@ -26,9 +26,12 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
 
+            <label for="password">Confirm</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+            
             <input type="submit" value="Login">
           </form>
-          <p>Or <a href="/register">register</a> if you don't have an account yet..</p>
+          <p>Or <a href="/login">login</a> if you already have an account.</p>
         </div>
       </body>
     </html>

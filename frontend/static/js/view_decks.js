@@ -1,6 +1,5 @@
 // view_decks.js
 
-
 const deckContainer = document.querySelector("#deck-container");
 
 fetch("/api/decks")
