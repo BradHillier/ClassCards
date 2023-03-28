@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
 api_bp = Blueprint('api', __name__)
 
@@ -9,7 +9,16 @@ def data():
     return jsonify({'data': 'Hello, World!'})
 '''
 
-@api_bp.route('/api/decks')
+@api_bp.route('/api/decks', methods=['GET', 'POST'])
 def get_decks():
-    decks = [{'title': 'Deck 1'}, {'title': 'Deck 2'}, {'title': 'Deck 3'}]
-    return jsonify({'decks': decks})
+    if request.method == 'GET':
+        decks = [
+                    {'title': 'Deck 1'}, 
+                    {'title': 'Deck 2'}, 
+                    {'title': 'Deck 3'}
+                ]
+        return jsonify({'decks': decks}), 200
+    if request.method == 'POST':
+        # TODO: add ability to create a new deck
+        return {'message': 'successfully created a new deck'}, 201
+
