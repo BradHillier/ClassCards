@@ -13,9 +13,20 @@ def data():
 def get_decks():
     if request.method == 'GET':
         decks = [
-                    {'title': 'Deck 1'}, 
-                    {'title': 'Deck 2'}, 
-                    {'title': 'Deck 3'}
+                    {
+                        'name': 'Deck 1',
+                        'deckID': '000000001',
+                        'isPublic': True,
+                        'tags': [],
+                        'author': 'kermit'
+                    },
+                    {
+                        'name': 'Deck 2',
+                        'deckID': '000000002',
+                        'isPublic': True,
+                        'tags': [],
+                        'author': 'kermit'
+                    }
                 ]
         return jsonify({'decks': decks}), 200
     if request.method == 'POST':
