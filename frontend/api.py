@@ -11,10 +11,13 @@ def data():
 
 @api_bp.route('/api/decks', methods=['GET', 'POST'])
 def get_decks():
+
+    # get a list of existing decks
     if request.method == 'GET':
         search_param = request.args.get('search')
+
+        # get all the decks
         if not search_param:
-            # get all the decks
             decks = [{
                         'name': 'Deck 1',
                         'deckID': 1,
@@ -23,8 +26,9 @@ def get_decks():
                         'author': 'kermit',
                         'authorID': 1
                     }]
+
+        # get just decks matching the search parameter
         else:
-            # get just decks matching the search parameter
             decks = [{
                         'name': f'{search_param} deck',
                         'deckID': 1,
@@ -35,12 +39,16 @@ def get_decks():
                     }]
         return {'decks': decks}, 200
 
+    # create a new deck
     if request.method == 'POST':
         # TODO: add ability to create a new deck
         return {'message': 'successfully created a new deck'}, 201
 
+
 @api_bp.route('/api/decks/<int:deckID>/cards', methods=['GET', 'POST'])
 def deck_cards(deckID: int):
+
+    # get a list of cards belonging to the deck with the provided ID
     if request.method == 'GET':
         if deckID == 1:
             return [
@@ -59,12 +67,14 @@ def deck_cards(deckID: int):
         else:
             return {'error': 'Invalid deck id'}, 400
 
+    # add a list of cards to the deck with the provided id
     if request.method == 'POST':
         # TODO: add functionality for adding a card to a deck
         pass
 
 @api_bp.route('/api/cards/<int:cardID>/comments', methods=['GET', 'POST'])
 def card_comments(cardID: int):
+
     if request.method == 'GET':
         if cardID == 1:
             return [
