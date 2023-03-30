@@ -13,3 +13,15 @@ server/db.py
 **/__pycache__/
 
 server/flask_session/
+
+# Vim
+*.swp
+*.swo
+*.swn
+
+# venv
+bin
+lib
+share
+lib64
+pyvenv.cfg
