@@ -1,8 +1,8 @@
 from flask import Flask, session
-
 from flask_session import Session
-
 from API.user import user
+
+from db import get_DB
 
 app = Flask(__name__)
 
@@ -12,6 +12,9 @@ app.config["SESSION_TYPE"] = "filesystem"
 
 #build the session
 Session(app)
+
+
+db_session = get_DB()
 
 app.register_blueprint(user)
 
