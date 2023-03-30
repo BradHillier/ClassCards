@@ -15,14 +15,14 @@ def get_decks():
         decks = [
                     {
                         'name': 'Deck 1',
-                        'deckID': '000000001',
+                        'deckID': 1,
                         'isPublic': True,
                         'tags': [],
                         'author': 'kermit'
                     },
                     {
                         'name': 'Deck 2',
-                        'deckID': '000000002',
+                        'deckID': 2,
                         'isPublic': True,
                         'tags': [],
                         'author': 'kermit'
