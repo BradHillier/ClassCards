@@ -45,10 +45,13 @@ def deck_cards(deckID: int):
         if deckID == 1:
             return [
                 {
+                    'front': 'what is the answer to this question?',
+                    'back': 'this is the answer',
+                    'cardID': 1,
                     'isApproved': True,
                     'tags': [],
                     'author': 'kermit',
-                    'authorID': 0,
+                    'authorID': 1,
                     'deckID':  1,
                     'rating': 0
                 }
