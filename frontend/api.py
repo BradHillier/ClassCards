@@ -33,3 +33,40 @@ def get_decks():
         # TODO: add ability to create a new deck
         return {'message': 'successfully created a new deck'}, 201
 
+@api_bp.route('/api/decks/<int:deckID>/cards', methods=['GET', 'POST'])
+def get_deck_cards(deckID: int):
+    if request.method == 'GET':
+        if deckID == 1:
+            return [
+                {
+                    'cardData': {
+                        "noteId": 1672966457463,
+                        "tags": [],
+                        "fields": {
+                            "Question": {
+                                "value": "What is the differences between data and information?",
+                                "order": 0
+                                },
+                            "Answer": {
+                                "value": "Data is collection of facts, which by itself has no meaning. Information puts those facts into context.",
+                                "order": 1
+                                }
+                            },
+                        "modelName": "Basic",
+                        "cards": [
+                            1672966457465
+                            ]
+                    },
+                    'isApproved': True,
+                    'tags': [],
+                    'author': 'kermit',
+                    'authorID': 0,
+                    'deckID':  1,
+                    'rating': 0
+                }
+            ]
+        else:
+            return {'error': 'Invalid deck id'}, 400
+
+    if request.method == 'POST':
+        pass
