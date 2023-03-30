@@ -64,9 +64,34 @@ def get_deck_cards(deckID: int):
                     'deckID':  1,
                     'rating': 0
                 }
-            ]
+            ], 200
         else:
             return {'error': 'Invalid deck id'}, 400
 
     if request.method == 'POST':
+        # TODO: add functionality for adding a card to a deck
+        pass
+
+@api_bp.route('/api/cards/<int:cardID>/comments', methods=['GET', 'POST'])
+def card_comments(cardID: int):
+    if request.method == 'GET':
+        if cardID == 1:
+            return [
+                  {
+                    'id': 1,
+                    'Content': 'this card is very good',
+                    'cardID': 1,
+                    'userID': 45  
+                  },
+                  {
+                    'id': 2,
+                    'Content': 'this card is very bad',
+                    'cardID': 1,
+                    'userID': 1
+                  }
+            ], 200
+        else:
+            return {'error': 'Invalid card id'}, 400
+    if request.method == 'POST':
+        # TODO: add functionality for adding a card to a deck
         pass
