@@ -93,6 +93,22 @@ def card_comments(cardID: int):
             ], 200
         else:
             return {'error': 'Invalid card id'}, 400
+
     if request.method == 'POST':
         # TODO: add functionality for adding a card to a deck
         pass
+
+@api_bp.route('/api/cards/<int:cardID>/ratings', method=['GET', 'POST'])
+def card_ratings(cardID: int):
+
+   # check if a user has rated a card and what type of rating they provided
+   if request.method == 'GET':
+       user = request.args.get('user')
+       if user:
+           return {'type': 1}, 200
+       else:
+           return {'error': 'no user id provided'}, 400
+
+   if request.method == 'POST':
+    pass
+
