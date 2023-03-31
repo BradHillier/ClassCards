@@ -5,38 +5,36 @@ GIT repository for csci375/Team5/Project
 #Project description (description and then directory structure, location and content)
 
 
-docs     readme.txt
-         todo.txt
+docs            readme.txt
+                todo.txt
 
 testing
 
-frontend LICENSE
-         README.md
-         requirement.txt
-         main.py
-         db.py
-         db.sql 
+API             users.py
+                decks.py
+                card.py 
 
-         API             users.py
-                         decks.py
-                         card.py 
+static          css              login_style.css
+                                 style.css
 
-         static          css              login_style.css
-                                          style.css
+                js               index.js
+                                 login.js
+                                 view_decks.js
 
-                         js               index.js
-                                          login.js
-                                          view_decks.js
-
-         templates       base.html
-                         index.html
-                         login.html
-                         register.html
-                         upload_deck.html  
-                         view_decks.html
+templates       base.html
+                index.html
+                login.html
+                register.html
+                upload_deck.html  
+                view_decks.html
 
 
-server
+LICENSE
+README.md
+requirements.txt
+main.py
+db.py
+db.sql
 
 #Technologies
 
