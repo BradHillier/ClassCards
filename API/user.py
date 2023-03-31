@@ -2,7 +2,7 @@
 """
 
 from flask import Blueprint, Flask, request, jsonify, session, render_template
-import db
+from db import get_DB
 import bcrypt
 
 
@@ -21,7 +21,7 @@ def login_POST():
     #content = request.get_json(force=True)
     #print(content)
 
-    username = request.form['email']
+    email = request.form['email']
     password = request.form['password']
 
     # HASH PASSWORDS
@@ -31,37 +31,55 @@ def login_POST():
     hash = bcrypt.hashpw(bytes, salt)
 
     # Debugging test: ensure password can be checked against hash
-    test = password.encode("utf-8")
-    result = bcrypt.checkpw(test, hash)
+    # test = password.encode("utf-8")
+    # result = bcrypt.checkpw(test, hash)
 
     # TODO: Access database and check pwdhash against input
         
-    # test = get_DB()
+    dbs = get_DB()
 
-    # sql = "SELECT * from User WHERE "
+    crs = dbs.cursor()
     
+    sql = "SELECT * from User WHERE Email = %s AND password = %s"
+    adr = (email, password)
 
+    crs.execute(sql, adr)
+
+    result = crs.fetchall()
+
+    pwd_encode = password.encode("utf-8")
+
+    pee = "empty"
+    
+    for (e, p) in result:
+        if e == email and bcrypt.checkpw(pwd_encode, p.encode("utf-8")) == True:
+            session["email"] = email    
+            session["logged_in"] = True 
+            pee = p
+            
+    
     # For now, just let any username and password create a session
-    if result == True:
-        session["username"] = username    
-        session["logged_in"] = True 
+#    if result == True:
+#        session["username"] = username    
+#        session["logged_in"] = True 
 
     
-    if "username" in session:
+    if "email" in session:
         print("session exists?")
-        print(session["username"])
+        print(session["email"])
 
+        return "cool beans!"
 
 
     #return jsonify(content)
-    return "hello!"
+    return "hello! : "
     
 
 @user.route("/logout")
 def logout():
     """Log the user out by removing all variables from session
     """
-    session.pop("username", None)
+    session.pop("email", None)
     session.pop("logged_in", None)
     return "Logged out"
     
