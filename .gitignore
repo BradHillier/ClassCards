@@ -6,13 +6,12 @@ core
 *.core
 a.out
 
-client/*.*~
-server/*.*~
-server/db.py
+*.*~
+db.py
 
 **/__pycache__/
 
-server/flask_session/
+flask_session/
 
 # Vim
 *.swp
