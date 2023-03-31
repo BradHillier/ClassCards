@@ -1,0 +1,14 @@
+GIT repository for csci375/Team5/Project
+
+#How to use the project
+
+#Troubleshooting the project
+
+#Known issues with the project
+
+
+
+#Specifications for this document:
+-Details the use of the product
+-Details trouble-shooting (what to do if something doesn’t work)
+-Detailsknown issues with product (what do you know doesn’t work?)
