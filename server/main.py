@@ -1,6 +1,9 @@
 from flask import Flask, session
 from flask_session import Session
+
 from API.user import user
+from API.decks import deck
+from API.cards import card
 
 from db import get_DB
 
@@ -17,6 +20,8 @@ Session(app)
 db_session = get_DB()
 
 app.register_blueprint(user)
+app.register_blueprint(deck)
+app.register_blueprint(card)
 
 @app.route("/")
 def hello():
