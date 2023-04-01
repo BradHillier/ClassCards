@@ -24,46 +24,33 @@ def login_POST():
     email = request.form['email']
     password = request.form['password']
 
-    # HASH PASSWORDS
-    
-    bytes = password.encode("utf-8")
-    salt = bcrypt.gensalt()
-    hash = bcrypt.hashpw(bytes, salt)
-
-    # Debugging test: ensure password can be checked against hash
-    # test = password.encode("utf-8")
-    # result = bcrypt.checkpw(test, hash)
-
-    # TODO: Access database and check pwdhash against input
-        
+    # open connection to db
     dbs = get_DB()
-
     crs = dbs.cursor()
     
-    sql = "SELECT * from User WHERE Email = %s AND password = %s"
-    adr = (email, password)
+    sql = "SELECT username, Email, password from User WHERE Email = %s AND password = %s"
 
-    crs.execute(sql, adr)
+    # all PWD checks must encode the pwd into utf-8 bytes when checking against the hashed result
+    adr = (email, password.encode("utf-8"), )
 
-    result = crs.fetchall()
+    try:
+        crs.execute(sql, adr)
+        result = crs.fetchall()
+    except mysql.connector.Error as err:
+        print(err)
 
-    pwd_encode = password.encode("utf-8")
-
-    pee = "empty"
-    
-    for (e, p) in result:
+    # if the user's login info is found, create a session 
+    for (u, e, p) in result:
         if e == email and bcrypt.checkpw(pwd_encode, p.encode("utf-8")) == True:
             session["email"] = email    
-            session["logged_in"] = True 
-            pee = p
-            
-    
-    # For now, just let any username and password create a session
-#    if result == True:
-#        session["username"] = username    
-#        session["logged_in"] = True 
+            session["logged_in"] = True
+            session["username"] = u
 
-    
+
+    # close connections to query, cursor, and DB to be safe
+    crs.close()
+    dbs.close()
+
     if "email" in session:
         print("session exists?")
         print(session["email"])
@@ -74,6 +61,64 @@ def login_POST():
     #return jsonify(content)
     return "hello! : "
     
+
+@user.route("/register", methods=["POST"])
+def register():
+    """Takes registration data and attempts to create a new, unique account
+    """
+
+    # fetch data from form request
+    email = request.form["Email"]
+    username = request.form["username"]
+    password = request.form["password"]
+
+    # prep the existing user check query
+    usr_check = "SELECT * FROM User WHERE username = %s OR Email = %s"
+    adr = (username, email,)
+
+    # open connection to DB and get a cursor
+    dbs = get_DB()
+    crs = dbs.cursor()
+
+    try:
+        crs.execute(usr_check, adr)
+        result = crs.fetchone()
+    except mysql.connector.Error as err:
+        print(err)
+    # 
+    if result == True:
+        return "existing user with email and username, please try again!"
+
+    # close result after use
+    result.close()
+
+    # salt and hash the pwd
+    bytes = password.encode("utf-8")
+    salt = bcrypt.gensalt()
+    hash = bcrypt.hashpw(bytes, salt)
+        
+    # Debugging test: ensure password can be checked against hash
+    test = password.encode("utf-8")
+    hashres = bcrypt.checkpw(test, hash)
+
+    # prep insert query
+    insert = "INSERT INTO User (username, Email, password) VALUES (%s, %s, %s)"
+    adr = (username, email, password, )
+
+    # attempt to insert user data
+    try:
+        crs.execute(insert, adr)
+        #important to actually making changes in the DB
+        dbs.commit()
+    except mysql.connector.Error as err:
+        print(err)
+
+    # close DB connection and cursor
+    crs.close()
+    dbs.close()
+
+
+
 
 @user.route("/logout")
 def logout():
