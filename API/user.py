@@ -3,6 +3,7 @@
 
 from flask import Blueprint, Flask, request, jsonify, session, render_template, redirect, url_for
 from db import get_DB
+import mysql.connector
 import bcrypt
 
 
@@ -89,12 +90,13 @@ def register():
         result = crs.fetchone()
     except mysql.connector.Error as err:
         print(err)
-    # 
-    if result == True:
-        return "existing user with email and username, please try again!"
+
+    if result is not None:
+        # 409 is the HTTP status code for a conflict
+        return {"Error": "existing user with email and username, please try again!"}, 409
 
     # close result after use
-    # result.close()
+    # result.close() <-- this is a tuple and has no .close() method
 
     # salt and hash the pwd
     bytes = password.encode("utf-8")
