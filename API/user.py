@@ -65,8 +65,11 @@ def login_POST():
 @user.route("/register", methods=["POST"])
 def register():
     """Takes registration data and attempts to create a new, unique account
-    """
 
+    Example:
+        curl -X POST http://127.0.0.1:5000/register \
+             -F email=user@example.com -F username=myusername -F password=mypassword
+    """
     
     # fetch data from form request
     email = request.form["email"]
