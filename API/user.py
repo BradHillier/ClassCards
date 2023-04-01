@@ -29,10 +29,11 @@ def login_POST():
     dbs = get_DB()
     crs = dbs.cursor()
     
-    sql = "SELECT username, Email, password from User WHERE Email = %s AND password = %s"
+    sql = "SELECT username, email, password from User WHERE email = %s"
 
     # all PWD checks must encode the pwd into utf-8 bytes when checking against the hashed result
-    adr = (email, password.encode("utf-8"), )
+    adr = (email,)
+    pwd_encode = password.encode("utf-8")
 
     try:
         crs.execute(sql, adr)
@@ -40,12 +41,14 @@ def login_POST():
     except mysql.connector.Error as err:
         print(err)
 
-    # if the user's login info is found, create a session 
-    for (u, e, p) in result:
-        if e == email and bcrypt.checkpw(pwd_encode, p.encode("utf-8")) == True:
-            session["email"] = email    
-            session["logged_in"] = True
-            session["username"] = u
+    # only gets entered if no sql error occured and thus result is not None
+    else:
+        # if the user's login info is found, create a session 
+        for (u, e, p) in result:
+            if e == email and bcrypt.checkpw(pwd_encode, p.encode("utf-8")) == True:
+                session["email"] = email    
+                session["logged_in"] = True
+                session["username"] = u
 
 
     # close connections to query, cursor, and DB to be safe
@@ -60,7 +63,7 @@ def login_POST():
 
 
     #return jsonify(content)
-    return "Login failed!"
+    return {"Error":"Login failed!"}, 401
     
 
 @user.route("/register", methods=["POST"])
