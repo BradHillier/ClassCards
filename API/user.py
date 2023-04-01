@@ -1,7 +1,7 @@
 """Handle user related functionality, including routing requests
 """
 
-from flask import Blueprint, Flask, request, jsonify, session, render_template
+from flask import Blueprint, Flask, request, jsonify, session, render_template, redirect, url_for
 from db import get_DB
 import bcrypt
 
@@ -55,11 +55,11 @@ def login_POST():
         print("session exists?")
         print(session["email"])
 
-        return "cool beans!"
+        return redirect(url_for("home"))
 
 
     #return jsonify(content)
-    return "hello! : "
+    return "Login failed!"
     
 
 @user.route("/register", methods=["POST"])
@@ -67,8 +67,9 @@ def register():
     """Takes registration data and attempts to create a new, unique account
     """
 
+    
     # fetch data from form request
-    email = request.form["Email"]
+    email = request.form["email"]
     username = request.form["username"]
     password = request.form["password"]
 
@@ -90,20 +91,20 @@ def register():
         return "existing user with email and username, please try again!"
 
     # close result after use
-    result.close()
+    # result.close()
 
     # salt and hash the pwd
     bytes = password.encode("utf-8")
     salt = bcrypt.gensalt()
-    hash = bcrypt.hashpw(bytes, salt)
+    pwdhash = bcrypt.hashpw(bytes, salt)
         
     # Debugging test: ensure password can be checked against hash
     test = password.encode("utf-8")
-    hashres = bcrypt.checkpw(test, hash)
+    hashres = bcrypt.checkpw(test, pwdhash)
 
     # prep insert query
     insert = "INSERT INTO User (username, Email, password) VALUES (%s, %s, %s)"
-    adr = (username, email, password, )
+    adr = (username, email, pwdhash, )
 
     # attempt to insert user data
     try:
@@ -117,7 +118,8 @@ def register():
     crs.close()
     dbs.close()
 
-
+    return redirect(url_for("login"))
+    
 
 
 @user.route("/logout")
