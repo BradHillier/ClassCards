@@ -6,6 +6,7 @@ def get_DB():
     """
     mdb = mysql.connector.connect(
         host="",
+        database="",
         user="",
         password=""
     )
