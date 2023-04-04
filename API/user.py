@@ -44,6 +44,7 @@ def login_POST():
     # only gets entered if no sql error occured and thus result is not None
     else:
         # if the user's login info is found, create a session 
+        
         for (u, e, p) in result:
             if e == email and bcrypt.checkpw(pwd_encode, p.encode("utf-8")) == True:
                 session["email"] = email    
