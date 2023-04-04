@@ -1,4 +1,4 @@
-CREATE TABLE User (
+2CREATE TABLE User (
     id       INT(9)       NOT NULL AUTO_INCREMENT,
     username VARCHAR(64)  NOT NULL,
     Email    VARCHAR(128) NOT NULL,

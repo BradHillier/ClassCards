@@ -60,7 +60,7 @@ def card_comments(cardID: int):
 
     if request.method == 'POST':
         # TODO: add functionality for adding a card to a deck
-        pass
+        return {'success': 1}, 200
 
 @card.route('/api/cards/<int:cardID>/ratings', methods=['GET', 'POST'])
 def card_ratings(cardID: int):
@@ -74,4 +74,6 @@ def card_ratings(cardID: int):
            return {'error': 'no user id provided'}, 400
 
    if request.method == 'POST':
-    pass
+       # TODO: Check if user has rated card before, don't apply same rating twice
+       return {'success': 1}, 200
+   pass
