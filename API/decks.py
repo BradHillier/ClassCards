@@ -127,10 +127,14 @@ def get_decks():
             print(err)
 
 
-    # TODO: Insert tag associations into table for each tag on a card 
+    #Inserts a tag association using the id, and a select statement to find the ID of the tag
+    ins_tag_assoc = "INSERT INTO TagAssociation (cardID, tagID) VALUES (?, (SELECT Tag.ID FROM Tag WHERE Tag.tag = ? LIMIT 1))"
 
-    for ID, tag in cid_to_tags:
-        pass
+    # TODO: Insert tag associations into table for each tag on a card 
+    try:
+        crs.executemany(ins_tag_assoc, cid_to_tags)
+    except mysql.Connector.Error as err:
+        print(err)
     
     # NOTE: do not uncomment until everything is working, otherwise partial
     #       changes could be made to DB unintended
