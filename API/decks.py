@@ -97,9 +97,20 @@ def get_decks():
 
         # get last card ID from insert
         card_last_id = crs.lastrowid
-
         card_start_id = card_tags.len - card_last_insert
 
+
+
+        # Map card ID to a tag set
+        itr_start = card_start_id
+        
+        cid_to_tags = []
+        for tag_set in ins_cards:
+            for tag in tag_set:
+                cid_to_tags.append( (itr_start, tag) )   
+            itr_start += 1
+            
+        
         ins_tags = []
 
         # Collect all tags from different cards into one set
@@ -118,9 +129,13 @@ def get_decks():
 
     # TODO: Insert tag associations into table for each tag on a card 
 
+    for ID, tag in cid_to_tags:
+        pass
     
-    
-    
+    # NOTE: do not uncomment until everything is working, otherwise partial
+    #       changes could be made to DB unintended
+        
+    # crs.commit()
             
     # TODO: add ability to create a new deck
     return {'message': 'successfully created a new deck'}, 201
