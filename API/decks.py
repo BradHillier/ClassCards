@@ -39,14 +39,27 @@ def get_decks():
 
     # create a new deck
     if request.method == 'POST':
+        print("POST!")
 
-        deck_name = request.form["name"]
-        is_public = request.form["is_public"]
-        author_id = request.form["authorID"]
-        cards = request.form["cards"]
+        content = request.json
 
+        print(content)
 
+        
+        
+        deck_name = content["name"]
+        print(deck_name)
+        is_public = content["isPublic"]
+        author_id = content["authorID"]
+        cards     = content["cards"]
 
+        
+        print(is_public)
+        print(author_id)
+        print(cards)
+
+        # return {'message': 'test'}, 403
+        
         # Check if authorID = ID in session before creating query
 
 
@@ -54,7 +67,7 @@ def get_decks():
         # Set up DB session
 
         dbs = get_DB()
-        crs = dbs.get_cursor()
+        crs = dbs.cursor()
 
         # Prepare sql statement
         sql = "INSERT (name, isPublic, ownerID) INTO Deck VALUES (?, ?, ?)"
@@ -63,8 +76,8 @@ def get_decks():
         try:
             crs.execute(sql, params)
             result = crs.fetchall()
-        except mysql.Connector.Error as err:
-            sys.exit(err)
+        except mysql.connector.Error as err:
+            print(err)
 
         # get the database ID of the deck for card inserts
         deck_id = crs.lastrowid
@@ -86,18 +99,18 @@ def get_decks():
                 # save card tags for another insert
                 card_tags.append(t)
                 
-        except mysql.Connector.Error as err:
-            print(err)
+        except mysql.connector.Error as err:
+            print("Error: ", err)
 
         try:
             # attempt insert on every card in ins_cards
             crs.executemany(ins_query, ins_cards)
-        except mysql.Connector.Error as err:
-            print(err)
+        except mysql.connector.Error as err:
+            print("Error at insert every card: ", err)
 
         # get last card ID from insert
         card_last_id = crs.lastrowid
-        card_start_id = card_tags.len - card_last_insert
+        card_start_id = len(card_tags) - card_last_id
 
 
 
@@ -123,8 +136,8 @@ def get_decks():
 
         try:
             crs.executemany(ins_tags_query, ins_tags)
-        except mysql.Connector.Error as err:
-            print(err)
+        except mysql.connector.Error as err:
+            print("Error at insert tags: ", err)
 
 
     #Inserts a tag association using the id, and a select statement to find the ID of the tag
@@ -133,8 +146,8 @@ def get_decks():
     # TODO: Insert tag associations into table for each tag on a card 
     try:
         crs.executemany(ins_tag_assoc, cid_to_tags)
-    except mysql.Connector.Error as err:
-        print(err)
+    except mysql.connector.Error as err:
+        print("error at ins tag associations: ", err)
     
     # NOTE: do not uncomment until everything is working, otherwise partial
     #       changes could be made to DB unintended
