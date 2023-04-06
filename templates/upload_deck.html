@@ -7,7 +7,14 @@
 
 {% block content %}
 <h1>Upload Deck</h1>
-<p>This is the about page content.</p>
-
+<div style="text-align: center" id="deck-container"></div>
+<div class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Are you sure you want to upload ${name}?</p>
+        <button id="confirmButton">Yes</button>
+        <button id="cancelButton">No</button>
+    </div>
+</div>
+<script type="module" src="{{ url_for('static', filename='../static/js/view_local_decks.js') }}"></script>
 {% endblock %}
-

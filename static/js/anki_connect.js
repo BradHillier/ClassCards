@@ -13,7 +13,7 @@
  * TODO: add error handling
  */
 
-class DeckAnkiConnectDAO {
+export class AnkiConnectDAO {
 
    constructor() {
 
@@ -55,14 +55,19 @@ class DeckAnkiConnectDAO {
     * This should be the first call you make to make sure that your application and 
     * Anki-Connect are able to communicate properly with each other. New versions of 
     * Anki-Connect are backwards compatible; as long as you are using actions which are 
-    * available in the reported Anki-Connect version or earlier, everything should work fine.
-    */
+    * available in the reported Anki-Connect version or earlier, everything should work fine.  */
    async requestPermission() {
       const data = {
          action: "requestPermission",
          version: 6
       }
       return await this.call(data)
+   }
+
+   async getCards(deckName) {
+       const cards = await this.#getCardIDs(deckName)
+           .then(card_ids => this.#getCardInfo(card_ids))
+       return cards
    }
 
    /**
@@ -86,6 +91,28 @@ class DeckAnkiConnectDAO {
          version: 6,
          params: {
             deck: deckName
+         }
+      }
+      return await this.call(data)
+   }
+
+   async #getCardIDs(deckName) {
+      const data = {
+         action: "findNotes",
+         version: 6,
+         params: {
+            query: `"deck:${deckName}"`
+         }
+      }
+      return await this.call(data)
+   }
+
+   async #getCardInfo(cards) {
+      const data = {
+         action: "notesInfo",
+         version: 6,
+         params: {
+            notes: cards
          }
       }
       return await this.call(data)
