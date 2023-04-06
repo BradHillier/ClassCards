@@ -19,7 +19,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-db_session = get_DB()
+# db_session = get_DB()
 
 # API
 app.register_blueprint(user)
