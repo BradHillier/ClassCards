@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 
+from db import get_DB
 
 card = Blueprint('card', __name__)
 
@@ -40,6 +41,23 @@ def card_comments(cardID: int):
             was invalid
     """
     if request.method == 'GET':
+
+        query = "SELECT * FROM Feedback"
+
+        dbs = get_DB()
+        crs = dbs.cursor()
+
+        try:
+            crs.execute(query)
+
+        except mysql.connector.Error as err:
+            print(err)    
+        
+
+        result = crs.fetchall();
+
+        return jsonify(result), 200
+        
         if cardID == 1:
             return [
                   {
@@ -59,6 +77,26 @@ def card_comments(cardID: int):
             return {'error': 'Invalid card id'}, 400
 
     if request.method == 'POST':
+
+        content = request.json
+
+        comment = content["content"]
+        userID = content["userID"]
+
+        query = "INSERT INTO Feedback (content, cardID, userID) VALUES (%s, %s, %s)"
+        params = (content, cardID, userID,)
+        dbs = get_DB()
+        crs = dbs.cursor()
+
+        try:
+            crs.execute(query, params)
+            
+        except mysql.connector.Error as err:
+            print(err)
+
+        cursor.close()
+        dbs.close()
+            
         # TODO: add functionality for adding a card to a deck
         return {'success': 1}, 200
 
