@@ -200,4 +200,30 @@ def deck_cards(deckID: int):
     # add a list of cards to the deck with the provided id
     if request.method == 'POST':
         # TODO: add functionality for adding a card to a deck
-        pass
+
+
+        content = request.json
+        
+        front = content["front"]
+        back  = content["back"]
+       # author = content["authorID"]
+        # front = content["tags"]
+        deck = content["deckID"]
+
+
+        query = "INSERT INTO Card (front, back, isApproved, deckID) VALUES (%s, %s, True, %s)"
+        params = (front, back, deck,)
+
+
+        
+        dbs = get_DB()
+        crs = dbs.cursor()
+
+        
+        try:
+            crs.execute(query, params)
+
+        except mysql.connector.Error as err:
+            print(err)
+
+        return {"message": "successfully added a new card to deck"}, 201
