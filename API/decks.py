@@ -226,4 +226,8 @@ def deck_cards(deckID: int):
         except mysql.connector.Error as err:
             print(err)
 
+            
+        dbs.commit()
+        crs.close()
+        dbs.close()
         return {"message": "successfully added a new card to deck"}, 201
