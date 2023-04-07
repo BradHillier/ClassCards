@@ -180,22 +180,27 @@ def deck_cards(deckID: int):
 
     # get a list of cards belonging to the deck with the provided ID
     if request.method == 'GET':
-        if deckID == 1:
-            return [
-                {
-                    'front': 'what is the answer to this question?',
-                    'back': 'this is the answer',
-                    'cardID': 1,
-                    'isApproved': True,
-                    'tags': [],
-                    'author': 'kermit',
-                    'authorID': 1,
-                    'deckID':  1,
-                    'rating': 0
-                }
-            ], 200
+        dbs = get_DB()
+        crs = dbs.cursor()
+        sql = "SELECT id, front, back, isApproved, deckID FROM Card WHERE deckID = %s"
+        try:
+            crs.execute(sql, (deckID,))
+        except mysql.connector.Error as err:
+            print("Error: ", err)
         else:
-            return {'error': 'Invalid deck id'}, 400
+            # process retreived data and store in a list to return to client
+            cards = []
+            for res in crs.fetchall():
+                cards.append({
+                    'cardID': res[0],
+                    'front': res[1].decode('utf-8'),
+                    'back': res[2].decode('utf-8'),
+                    'isApproved': res[3],
+                    'deckID': res[4]
+                })
+            return cards, 200
+        finally:
+            crs.close()
 
     # add a list of cards to the deck with the provided id
     if request.method == 'POST':
