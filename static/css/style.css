@@ -63,13 +63,27 @@ nav a:hover {
   padding-bottom: 50px;
 }
 
-.card {
+.deck {
   background-color: #fff;
   border-radius: 0.25rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   display: inline-block;
   margin: 0.5rem;
   width: 18rem;
+}
+
+.deck-body {
+  background-color: #B5EAD7; /* light green */
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  box-shadow: 2px 2px 5px #B9B9B9; /* light gray */
+}
+
+.deck-title {
+  color: #FFB347; /* light orange */
+  font-size: 1.2rem;
+  margin: 0;
 }
 
 .navbar {
