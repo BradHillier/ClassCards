@@ -49,10 +49,10 @@ async function createDeckElements() {
 
             // create element was used to easily add the event listener
             const deck = document.createElement('div')
-            deck.classList = "card"
+            deck.classList = "deck"
             deck.innerHTML = `
-                     <div class="card-body">
-                         <h5 class="card-title">${name}</h5>
+                     <div class="deck-body">
+                         <h5 class="deck-title">${name}</h5>
                      </div>`
             deckContainer.appendChild(deck)
 
@@ -95,8 +95,8 @@ async function getCardData(deckName) {
     const cardData = await cards.filter(card => card.modelName === "Basic")
         .map(card => {
             return {
-                front: card.fields.Question.value,
-                back: card.fields.Answer.value,
+                front: card.fields.Front.value,
+                back: card.fields.Back.value,
                 tags: card.tags
             }
         })

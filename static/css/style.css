@@ -63,6 +63,10 @@ nav a:hover {
   padding-bottom: 50px;
 }
 
+#deck-container {
+   text-align: center;
+}
+
 .deck {
   background-color: #fff;
   border-radius: 0.25rem;
@@ -100,13 +104,14 @@ nav a:hover {
 .card {
   width: 200px;
   height: 300px;
+  padding: 20px;
   background-color: white;
   border: 1px solid black;
   border-radius: 5px;
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  text-align: center;
   cursor: pointer;
   perspective: 1000px;
 }
@@ -151,11 +156,10 @@ nav a:hover {
 .card-body {
   width: 100%;
   height: 100%;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  text-align: center;
 }
 
 .card-title {
