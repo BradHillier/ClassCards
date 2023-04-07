@@ -5,11 +5,12 @@ const deckContainer = document.querySelector("#deck-container");
 fetch("/api/decks")
   .then((response) => response.json())
   .then((data) => {
-    const deckCards = data.decks.map((deck) => {
+    const deckCards = data.map((deck) => {
+       console.log(deck)
       return `
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">${deck.title}</h5>
+            <h5 class="card-title">${deck.name}</h5>
           </div>
         </div>
       `;
