@@ -201,6 +201,7 @@ def deck_cards(deckID: int):
             return cards, 200
         finally:
             crs.close()
+            dbs.close()
 
     # add a list of cards to the deck with the provided id
     if request.method == 'POST':
