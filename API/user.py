@@ -32,7 +32,7 @@ def login_POST():
     dbs = get_DB()
     crs = dbs.cursor()
     
-    sql = "SELECT username, email, password from User WHERE email = %s"
+    sql = "SELECT id, username, email, password from User WHERE email = %s"
 
     # all PWD checks must encode the pwd into utf-8 bytes when checking against the hashed result
     adr = (email,)
@@ -48,8 +48,9 @@ def login_POST():
     else:
         # if the user's login info is found, create a session 
         
-        for (u, e, p) in result:
+        for (i, u, e, p) in result:
             if e == email and bcrypt.checkpw(pwd_encode, p.encode("utf-8")) == True:
+                session["id"] = i
                 session["email"] = email    
                 session["logged_in"] = True
                 session["username"] = u
@@ -138,9 +139,7 @@ def register():
 def logout():
     """Log the user out by removing all variables from session
     """
-
-    
-
+    session.pop("id", None)
     session.pop("email", None)
     session.pop("logged_in", None)
     session.pop("username", None)

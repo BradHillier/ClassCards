@@ -61,7 +61,7 @@ def get_decks():
         deck_name = content["name"]
        # print(deck_name)
         is_public = content["isPublic"]
-        author_id = content["authorID"]
+        author_id = session["id"]
         cards     = content["cards"]
 
         
