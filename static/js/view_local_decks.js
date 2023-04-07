@@ -92,8 +92,9 @@ async function getCardData(deckName) {
 
     const cards = await myDAO.getCards(deckName)
 
+    console.log(await cards)
     // ensure only cards using the Basic note type are uploaded
-    const cardData = await cards.filter(card => card.modelName === "Basic")
+    const cardData = await cards.filter(card => Object.hasOwn(card.fields, 'Front'))
         .map(card => {
             return {
                 front: card.fields.Front.value,
