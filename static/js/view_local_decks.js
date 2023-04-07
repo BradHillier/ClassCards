@@ -3,6 +3,7 @@ import { AnkiConnectDAO } from "./anki_connect.js"
 const deckContainer = document.querySelector("#deck-container");
 const myDAO = new AnkiConnectDAO()
 const modal = document.querySelector(".modal")
+ const closeModal = () => { modal.style.display = "none" }
 let modalEventListener = null
 
 
@@ -29,7 +30,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 
-    const closeModal = () => { modal.style.display = "none" }
     // get the 'X' on the modal and set it to hide the modal
     const closeButton = document.querySelector(".close");
     closeButton.addEventListener('click', closeModal)
@@ -81,6 +81,7 @@ function showModal(deckName) {
     modalEventListener = async () => {
         const cards = await getCardData(deckName)
         const json = await uploadDeck(deckName, await cards)
+        closeModal()
         console.log(json)
     }
     confirmButton.addEventListener('click', modalEventListener)
