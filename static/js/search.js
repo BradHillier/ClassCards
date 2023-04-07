@@ -7,13 +7,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.querySelector('input[name="search"]');
     const decks = searchInput.value;
 
-    // Send an AJAX request to the server
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', `/api/decks?search=${decks}`);
-    xhr.onload = function() {
-      // handle the response from the server
-      console.log(decks);
-    };
-    xhr.send();
-  });
-});
+    const deckContainer = document.querySelector("#deck-container")
+
+    fetch(`/api/decks?search=${decks}`)
+      .then(response => response.json())
+      .then(data => {
+         const deckCards = data.map((deck) => {
+            return `
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">${deck.name}</h5>
+                </div>
+              </div>
+            `;
+         })
+         deckContainer.innerHTML = deckCards.join("");
+      })
+   });
+})

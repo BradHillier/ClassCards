@@ -6,7 +6,6 @@ fetch("/api/decks")
   .then((response) => response.json())
   .then((data) => {
     const deckCards = data.map((deck) => {
-       console.log(deck)
       return `
         <div class="card">
           <div class="card-body">
