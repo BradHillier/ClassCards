@@ -13,29 +13,40 @@ def get_decks():
     # get a list of existing decks
     if request.method == 'GET':
         search_param = request.args.get('search')
-
-        # get all the decks
-        if not search_param:
-            decks = [{
-                        'name': 'Deck 1',
-                        'deckID': 1,
-                        'isPublic': True,
-                        'tags': [],
-                        'author': 'kermit',
-                        'authorID': 1
-                    }]
-
-        # get just decks matching the search parameter
+        dbs = get_DB()
+        crs = dbs.cursor()
+        try:
+            if not search_param:
+                sql = "SELECT id, name, isPublic, ownerID FROM Deck"
+                crs.execute(sql)
+            else:
+                formatted_param = '%' + search_param + '%'
+                sql = """
+                    SELECT D.id, D.name, D.isPublic, D.ownerID
+                    FROM Card C
+                        JOIN Deck D ON C.deckID = D.id
+                    WHERE front like %s
+                       OR back like %s
+                       OR D.name like %s
+                    GROUP BY D.id, D.name, D.isPublic, D.ownerID
+                    """
+                crs.execute(sql, (formatted_param, formatted_param, formatted_param))
+        except mysql.connector.Error as err:
+            print("Error: ", err)
         else:
-            decks = [{
-                        'name': f'{search_param} deck',
-                        'deckID': 1,
-                        'isPublic': True,
-                        'tags': [search_param],
-                        'author': 'kermit',
-                        'authorID': 1
-                    }]
-        return {'decks': decks}, 200
+            # process retreived data and store in a list to return to client
+            decks = []
+            for res in crs.fetchall():
+                decks.append({
+                    'id': res[0],
+                    'name': res[1],
+                    'isPublic': res[2],
+                    'ownerID': res[3]
+                })
+            return decks, 200
+        finally:
+            crs.close()
+            dbs.close()
 
     # create a new deck
     if request.method == 'POST':
