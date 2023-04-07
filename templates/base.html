@@ -3,10 +3,19 @@
   <head>
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
   </head>
   <body>
     <div class="wrapper">
-      <nav>
+      <nav class="navbar">
+
+
+        <!-- Add a search bar to the navbar -->
+        <form id="search-form" action="#" method="GET" class="search-bar">
+          <input type="text" name="search" placeholder="Search...">
+          <button class="search-btn" type="submit">Search</button>
+        </form>
+        
         <!-- Add some links to the navbar -->
         <a href="/" {% if request.path == '/' %}class="active"{% endif %}>Home</a>
         <a href="/upload_deck" {% if request.path == '/upload_deck' %}class="active"{% endif %}>Upload Deck</a>
@@ -20,6 +29,7 @@
 
 	{% endif %}
       </nav>
+
       <div class="content">
         {% block content %}{% endblock %}
       </div>
