@@ -1,6 +1,6 @@
 
 # are all of these being used? session?
-from flask import Flask, session, jsonify, request, render_template
+from flask import Flask, session, jsonify, request, render_template, redirect, url_for
 from flask_session import Session
 
 from API.user import user
@@ -39,17 +39,30 @@ app.register_blueprint(card)
 
 @app.route('/', methods=['GET'])
 def home():
-    return render_template('index.html')
+    if "logged_in" in session:
+        return render_template('index.html')
+    else:
+        return redirect( url_for("login") )
     # return jsonify({'message': 'Hello, World!'})
 
 @app.route('/upload_deck', methods=['GET'])
 def upload_deck():
-    return render_template('upload_deck.html')
+
+    if "logged_in" in session:
+        return render_template('upload_deck.html')
+    else:
+        return redirect( url_for("login") )
+    
 
 
 @app.route('/view_decks', methods=['GET'])
 def view_deck():
-    return render_template('view_decks.html')
+    
+    if "logged_in" in session:
+        return render_template('view_decks.html')
+    else:
+        return redirect( url_for("login") )
+    
 
 @app.route('/login', methods=['GET'])
 def login():
