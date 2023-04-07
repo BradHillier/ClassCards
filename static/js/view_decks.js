@@ -27,10 +27,18 @@ fetch("/api/decks")
           .then((cards) => {
             const cardItems = cards.map((card) => {
               return `
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">${card.front}</h5>
-                    <p class="card-text">${card.back}</p>
+                <div class="card" onclick="this.classList.toggle('back')">
+                  <div class="card-inner">
+                    <div class="card-front">
+                      <div class="card-body">
+                        <h5 class="card-title">${card.front}</h5>
+                      </div>
+                    </div>
+                    <div class="card-back">
+                      <div class="card-body">
+                        <p class="card-text">${card.back}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               `;
@@ -46,4 +54,3 @@ fetch("/api/decks")
   .catch((error) => {
     console.error(error);
   });
-
