@@ -13,13 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => response.json())
       .then(data => {
          const deckCards = data.map((deck) => {
-            return `
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">${deck.name}</h5>
-                </div>
-              </div>
-            `;
+      return `
+           <div class="deck" data-deck-id="${deck.id}">
+             <div class="deck-body">
+               <h5 class="deck-title"><a href="#">${deck.name}</a></h5>
+             </div>
+           </div>
+         `
          })
          deckContainer.innerHTML = deckCards.join("");
       })
