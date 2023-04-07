@@ -22,6 +22,9 @@ def login_POST():
     #content = request.get_json(force=True)
     #print(content)
 
+    if "logged_in" in session:
+        redirect(url_for("home"))
+    
     email = request.form['email']
     password = request.form['password']
 
@@ -135,9 +138,14 @@ def register():
 def logout():
     """Log the user out by removing all variables from session
     """
+
+    
+
     session.pop("email", None)
     session.pop("logged_in", None)
-    return "Logged out"
+    session.pop("username", None)
+    session.clear()
+    return redirect(url_for("login"))
     
 
         
