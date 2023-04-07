@@ -20,7 +20,7 @@
         <a href="/" {% if request.path == '/' %}class="active"{% endif %}>Home</a>
         <a href="/upload_deck" {% if request.path == '/upload_deck' %}class="active"{% endif %}>Upload Deck</a>
         <a href="/view_decks" {% if request.path == '/view_decks' %}class="active"{% endif %}>View Decks</a>
-	{% if session["logged_in"] == False %}
+	{% if "logged_in" not in session %}
         <a href="/login" {% if request.path == '/login' %}class="active"{% endif %}>Login</a>
 
 	{% else %}
